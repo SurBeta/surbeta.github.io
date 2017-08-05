@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>无知颜</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://surbeta.com/"/>
+  <updated>2016-10-19T04:44:44.000Z</updated>
+  <id>http://surbeta.com/</id>
+  
+  <author>
+    <name>surbeta</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>出现java.lang.UnsupportedClassVersionError错误的原因及解决办法</title>
+    <link href="http://surbeta.com/java-lang-UnsupportedClassVersionError-20161019.html"/>
+    <id>http://surbeta.com/java-lang-UnsupportedClassVersionError-20161019.html</id>
+    <published>2016-10-19T04:30:00.000Z</published>
+    <updated>2016-10-19T04:44:44.000Z</updated>
+    
+    <content type="html">&lt;p&gt;最近本人参与的一个项目中启动的时候遇到了java.lang.UnsupportedClassVersionError错误,无法正常运行,如下图所示:&lt;br&gt;&lt;img src=&quot;https://acfuner.oss-cn-shanghai.aliyuncs.com/blog/java-lang-UnsupportedClassVersionError-20161019-1.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;出现此问题的原因是&lt;em&gt;使用了较高版本的jdk编译了class文件，在较低版本的jvm上运行较高版本jdk编译的class文件时就会报出此错误。&lt;/em&gt;&lt;br&gt;每一个编译生成的class文件，头八个字节都有固定的格式，下图是一个在jdk1.7环境中编译的class文件的第一行:&lt;br&gt;&lt;img src=&quot;https://acfuner.oss-cn-shanghai.aliyuncs.com/blog/java-lang-UnsupportedClassVersionError-20161019-2.jpg&quot; alt=&quot;&quot;&gt;&lt;br&gt;其中的&lt;code&gt;ca fe ba be&lt;/code&gt;是java class文件的&lt;em&gt;魔术数字(magic number)&lt;/em&gt;,用于识别此文件是否是java class文件，是固定的。&lt;br&gt;而后四个字节的&lt;code&gt;00 00 00 33&lt;/code&gt;为&lt;em&gt;次版本号&lt;/em&gt;（0000）和&lt;em&gt;主版本号&lt;/em&gt;（0033）。&lt;br&gt;各个jdk的版本主版本号如下所示：  &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;16进制：jdk版本
+34：JDK1.8
+33：JDK1.7
+32：JDK1.6
+31：JDK1.5 
+30：JDK1.4 
+2F：JDK1.3
+2E: JDK1.2
+2D: JDK1.1
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;故我们可以用16进制编辑器打开class文件来识别编译class文件的jdk版本。&lt;br&gt;具体到我遇到的此问题,解决办法为在MyEclipse的Package Explorer中右键点击相关项目→properties→Java Compiler,在右边选择合适的编译版本,如下图:&lt;br&gt;&lt;img src=&quot;https://acfuner.oss-cn-shanghai.aliyuncs.com/blog/java-lang-UnsupportedClassVersionError-20161019-3.jpg&quot; alt=&quot;&quot;&gt;&lt;br&gt;参考文章:&lt;a href=&quot;http://baser.blog.51cto.com/4153192/1305974&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;查看.class文件编译JDK版本 1.3/1.4/1.5/1.6 UE&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近本人参与的一个项目中启动的时候遇到了java.lang.UnsupportedClassVersionError错误,无法正常运行,如下图所示:&lt;br&gt;&lt;img src=&quot;https://acfuner.oss-cn-shanghai.aliyuncs.com/blog
+    
+    </summary>
+    
+    
+      <category term="Java" scheme="http://surbeta.com/tags/Java/"/>
+    
+      <category term="Error" scheme="http://surbeta.com/tags/Error/"/>
+    
+      <category term="UnsupportedClassVersionError" scheme="http://surbeta.com/tags/UnsupportedClassVersionError/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>myeclipse有缺包的提示但是文件里面却没有红叉的提示</title>
+    <link href="http://surbeta.com/myeclispe-error-20160906.html"/>
+    <id>http://surbeta.com/myeclispe-error-20160906.html</id>
+    <published>2016-09-06T09:14:00.000Z</published>
+    <updated>2016-10-19T01:24:44.000Z</updated>
+    
+    <content type="html">&lt;p&gt;今天导入了一个SVN的项目,出现了项目名字旁边有缺包的提示但是文件里面却没有红叉的提示的问题.&lt;br&gt;&lt;img src=&quot;https://acfuner.oss-cn-shanghai.aliyuncs.com/blog/myeclispe-error-20160906_1.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;通过查看Error Log,发现报的错为:&lt;br&gt;&lt;code&gt;Invalid ZIP archive: lib/org.springframework.spring-library-3.0.2.RELEASE.libd&lt;/code&gt;&lt;br&gt; &lt;img src=&quot;https://acfuner.oss-cn-shanghai.aliyuncs.com/blog/myeclispe-error-20160906_2.png&quot; alt=&quot;&quot;&gt;&lt;br&gt;继而在&lt;code&gt;.classpath&lt;/code&gt;文件中发现了错误的这行代码,将其注释,问题解决.&lt;br&gt; &lt;img src=&quot;https://acfuner.oss-cn-shanghai.aliyuncs.com/blog/myeclispe-error-20160906_3.png&quot; alt=&quot;&quot;&gt;&lt;br&gt; 原因应该是以前错误的把这个&lt;code&gt;org.springframework.spring-library-3.0.2.RELEASE.libd&lt;/code&gt;文件导入了Build Path.&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;今天导入了一个SVN的项目,出现了项目名字旁边有缺包的提示但是文件里面却没有红叉的提示的问题.&lt;br&gt;&lt;img src=&quot;https://acfuner.oss-cn-shanghai.aliyuncs.com/blog/myeclispe-error-20160906_1
+    
+    </summary>
+    
+    
+      <category term="eclipse" scheme="http://surbeta.com/tags/eclipse/"/>
+    
+      <category term="myeclipse" scheme="http://surbeta.com/tags/myeclipse/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://surbeta.com/hello-world.html"/>
+    <id>http://surbeta.com/hello-world.html</id>
+    <published>2016-07-08T04:30:00.000Z</published>
+    <updated>2017-08-05T10:08:41.736Z</updated>
+    
+    <content type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;headerlink&quot; title=&quot;Create a new post&quot;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ hexo new &lt;span class=&quot;string&quot;&gt;&quot;My New Post&quot;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/writing.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Writing&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Run-server&quot;&gt;&lt;a href=&quot;#Run-server&quot; class=&quot;headerlink&quot; title=&quot;Run server&quot;&gt;&lt;/a&gt;Run server&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ hexo server&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/server.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Server&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Generate-static-files&quot;&gt;&lt;a href=&quot;#Generate-static-files&quot; class=&quot;headerlink&quot; title=&quot;Generate static files&quot;&gt;&lt;/a&gt;Generate static files&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ hexo generate&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/generating.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Generating&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Deploy-to-remote-sites&quot;&gt;&lt;a href=&quot;#Deploy-to-remote-sites&quot; class=&quot;headerlink&quot; title=&quot;Deploy to remote sites&quot;&gt;&lt;/a&gt;Deploy to remote sites&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;$ hexo deploy&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/deployment.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Deployment&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
